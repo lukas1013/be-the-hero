@@ -17,7 +17,7 @@ export default function NewIncident() {
    
    const ongId = localStorage.getItem('ongId');
    
-   async function handleNewSubmit(){
+   async function handleNewSubmit(e){
       e.preventDefault();
       
       const data = {
