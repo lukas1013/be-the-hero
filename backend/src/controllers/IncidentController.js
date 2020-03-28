@@ -4,10 +4,10 @@ module.exports = {
 	async index(request, response) {
 		const {page = 1} = request.query;
 		
-		const [count] = connection('incidents').count();
+		const [count] = await connection('incidents').count();
 		
-		const incidents = connection('incidents')
-			.join('ongs','ongs.id','=','incidents.id')
+		const incidents = await connection('incidents')
+			.join('ongs','ongs.id','=','incidents.ong_id')
 			.limit(5)
 			.offset((page -1) * 5)
 			.select([
@@ -19,10 +19,10 @@ module.exports = {
 				'ongs.uf'
 			]);
 		
-response.header('X-Total-Count', count['count(*)']);
+      response.header('X-Total-Count', count['count(*)']);
 
 		return response.json(incidents);
-	}
+	},
 	
 	async create(request, response) {
 		const { title, description, value} = request.body;
@@ -36,13 +36,13 @@ response.header('X-Total-Count', count['count(*)']);
 		});
 		
 		return response.json({id});
-	}
+	},
 	
 	async delete(request, response) {
 		const { id } = request.params;
 		const ong_id = request.headers.authorization;
 
-		const incident = connection('incidents')
+		const incident = await connection('incidents')
 			.where('id', id)
 			.select('ong_id')
 			.first();
