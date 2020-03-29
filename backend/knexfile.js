@@ -14,7 +14,20 @@ module.exports = {
   		directory: './src/database/migrations'
   	}
   },
-
+  
+  test: {
+  	client: 'mysql',
+  	connection: {
+   	host : '127.0.0.1',
+   	user : 'user',
+   	password : 'user123',
+   	database : 'test'
+  	},
+  	migrations: {
+  		directory: './src/database/migrations'
+  	}
+  },
+  
   staging: {
     client: 'postgresql',
     connection: {
